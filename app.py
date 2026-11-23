@@ -131,7 +131,16 @@ with st.sidebar:
         lo, hi, mid = (float(data[f].min()), float(data[f].max()), float(data[f].median()))
         inputs[f] = st.slider(LABELS[f], lo, hi, mid, step=STEPS[f],
                               help=f"Observed data range: {lo:g} to {hi:g}")
-    predict_clicked = st.button("✦ Generate prediction", use_container_width=True)
+    st.session_state.setdefault("last_prediction", None)
+    if st.button("✦ Generate prediction", use_container_width=True):
+        try:
+            scenario = pd.DataFrame([inputs], columns=FEATURES)
+            st.session_state.last_prediction = dict(
+                values=dict(inputs), prediction=float(r["model"].predict(scenario)[0]))
+        except Exception as exc:
+            st.error(f"Prediction failed: {exc}")
+    if st.session_state.last_prediction:
+        st.metric("Predicted sales", f"{st.session_state.last_prediction['prediction']:,.2f} units")
     st.markdown("---\n### Model notes")
     for line in ["Linear Regression", "Standardised input features", "80/20 train-test split", "Random seed: 42"]:
         st.write(line)
@@ -162,11 +171,6 @@ for col, (lbl, val, note) in zip(st.columns(4), kpis):
 
 # -------------------- 02 PREDICTION STUDIO --------------------
 section("02", "Prediction studio", "Choose values in the sidebar and generate a sales estimate.")
-st.session_state.setdefault("last_prediction", None)
-if predict_clicked:
-    st.session_state.last_prediction = dict(
-        values=inputs.copy(),
-        prediction=float(r["model"].predict(pd.DataFrame([inputs], columns=FEATURES))[0]))
 saved = st.session_state.last_prediction
 left, right = st.columns([1.2, 1])
 with left:
@@ -175,7 +179,7 @@ with left:
          f'<div class="note">{"Adjust the inputs in the sidebar, then select Generate prediction." if not saved else "Estimated sales for the most recently submitted scenario. This is a model estimate, not a guarantee."}</div></div>')
 with right:
     st.markdown("#### Current scenario")
-    df_view(pd.DataFrame({"Business factor": map(name, inputs), "Selected value": inputs.values()}), height=205)
+    df_view(pd.DataFrame({"Business factor": [name(f) for f in inputs], "Selected value": list(inputs.values())}), height=205)
     if saved:
         lines = ["BUSINESS PREDICTOR | SALES PREDICTION REPORT", "=" * 45, "",
                  f"Predicted sales: {saved['prediction']:.2f} units", "", "Scenario inputs:",
@@ -259,7 +263,7 @@ insight("Test-set performance",
 # -------------------- 06 MODEL COEFFICIENTS --------------------
 section("06", "Inside the model",
         "Compare the direction and relative magnitude of the standardised regression coefficients.")
-coef = pd.DataFrame({"Business factor": map(name, FEATURES), "Coefficient": r["std_coef"]})
+coef = pd.DataFrame({"Business factor": [name(f) for f in FEATURES], "Coefficient": r["std_coef"]})
 coef["Direction"] = np.where(coef["Coefficient"] >= 0, "Positive", "Negative")
 fig = px.bar(coef.sort_values("Coefficient"), x="Coefficient", y="Business factor", orientation="h",
              color="Direction", color_discrete_map={"Positive": GREEN, "Negative": "#A83E50"},

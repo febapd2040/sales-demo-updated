@@ -291,14 +291,18 @@ example = pd.DataFrame([EXAMPLE], columns=FEATURES)
 with st.expander("01 · Business dataset", expanded=True):
     df_view(data)
     c = st.columns(3)
-    c[0].metric("Dataset rows", len(data)), c[1].metric("Dataset columns", data.shape[1]), c[2].metric("Source", "Simulated")
+    c[0].metric("Dataset rows", len(data))
+    c[1].metric("Dataset columns", data.shape[1])
+    c[2].metric("Source", "Simulated")
 with st.expander("02 · Correlation matrix", expanded=True):
     st.dataframe(corr.style.format("{:.6f}"), use_container_width=True)
     st.caption("Positive = positive linear association; negative = negative. Not cause and effect.")
 with st.expander("03 · Model evaluation", expanded=True):
     c = st.columns(4)
-    c[0].metric("Training records", len(r["X_train"])), c[1].metric("Testing records", len(r["X_test"]))
-    c[2].metric("MAE", f"{mae:.3f}"), c[3].metric("R²", f"{r2:.3f}")
+    c[0].metric("Training records", len(r["X_train"]))
+    c[1].metric("Testing records", len(r["X_test"]))
+    c[2].metric("MAE", f"{mae:.3f}")
+    c[3].metric("R²", f"{r2:.3f}")
     st.write("**MAE:** average absolute difference between actual and predicted sales (lower is better). "
              "**R²:** how well the model explains variation in sales on this test set.")
 with st.expander("04 · Correlation-based business insights", expanded=True):

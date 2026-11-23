@@ -1,5 +1,8 @@
-   pandas
-   matplotlib
-   seaborn
-   scikit-learn
-   streamlit
+streamlit
+pandas
+numpy
+plotly
+scikit-learn
+statsmodels
+matplotlib
+seaborn

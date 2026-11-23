@@ -26,13 +26,14 @@ html,body,[class*="css"]{font-family:'DM Sans',sans-serif;color:var(--ink)}
 h1,h2,h3,h4,h5,h6{color:var(--ink)!important;font-weight:800!important;letter-spacing:-.025em}
 h1,.serif{font-family:'Playfair Display',Georgia,serif!important}
 p,li{color:#263B35}
+[data-testid=stMetric] *{color:#102522}
 [data-testid=stSidebar]{background:linear-gradient(180deg,#172B2A,#203735);border-right:1px solid rgba(184,217,74,.35)}
 [data-testid=stSidebar] *{color:#F3F2EC}
 [data-testid=stSidebar] label{font-weight:600!important}
 .brand{display:flex;align-items:center;gap:12px;margin-bottom:1.2rem}
 .brand-mark{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;
   background:var(--dk);color:#B8D94A;border:1px solid #B8D94A;font-size:23px;font-weight:800}
-.brand-name{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:800}
+.brand-name{color:#102522;font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:800}
 .caps{text-transform:uppercase;letter-spacing:.16em;font-size:.68rem;color:var(--mute)}
 .hero{background:linear-gradient(120deg,#fff,#EAF4EF);padding:2.2rem;border-radius:24px;margin:.4rem 0 1.25rem;
   box-shadow:0 15px 40px rgba(16,37,34,.10);border:1px solid var(--line)}
@@ -49,10 +50,10 @@ p,li{color:#263B35}
 .card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:19px;min-height:125px;
   box-shadow:0 5px 18px rgba(16,37,34,.05)}
 .card .lbl{color:var(--mute);font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;font-weight:800;margin-bottom:11px}
-.card .val{font-family:'Playfair Display',serif;font-size:2rem;font-weight:800;line-height:1.1}
+.card .val{color:#102522;font-family:'Playfair Display',serif;font-size:2rem;font-weight:800;line-height:1.1}
 .card .note{margin-top:9px}
 .insight{background:#fff;border:1px solid #D3DFD8;border-left:5px solid var(--g);border-radius:13px;padding:15px;margin:.45rem 0}
-.insight b.t{display:block;margin-bottom:5px;font-weight:800}
+.insight b.t{color:#102522;display:block;margin-bottom:5px;font-weight:800}
 .insight .body{color:var(--mute);font-size:.88rem;line-height:1.6}
 .pred{background:linear-gradient(135deg,#F8FAF6,#E8F3EE);border:1px solid #BFDCD1;border-radius:20px;padding:25px}
 .pred .lbl{color:#075E55;text-transform:uppercase;letter-spacing:.13em;font-size:.75rem;font-weight:800}
@@ -63,6 +64,10 @@ div[data-testid=stDataFrame]{border:1px solid #C2D0C8;border-radius:12px;overflo
 .stButton>button,.stDownloadButton>button{border-radius:11px;border:1px solid var(--g);background:var(--g);
   color:#fff;font-weight:800;padding:.65rem 1rem}
 .stButton>button:hover,.stDownloadButton>button:hover{border-color:var(--dk);background:var(--dk);color:#fff}
+[data-testid=stExpander] summary{background:#172B2A;border-radius:10px}
+[data-testid=stExpander] summary:hover,[data-testid=stExpander] summary:focus,[data-testid=stExpander] summary:active,
+[data-testid=stExpander] details[open]>summary{background:#203735}
+[data-testid=stExpander] summary,[data-testid=stExpander] summary *{color:#FFFFFF!important;fill:#FFFFFF!important}
 footer,#MainMenu{visibility:hidden}
 """
 html = lambda s: st.markdown(s, unsafe_allow_html=True)
